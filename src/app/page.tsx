@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrendCharts } from "@/components/trend-charts";
 
 export default function Home() {
   return (
@@ -98,6 +99,38 @@ export default function Home() {
                   <Button>Read Full Idea</Button>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Trend Analysis Preview */}
+        <div className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Powered by <span className="text-orange-600">Real Trend Data</span>
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Every idea is backed by actual trending signals from Reddit, Google Trends, GitHub, and more. 
+              See the data that drives each recommendation.
+            </p>
+          </div>
+          
+          <Card className="max-w-6xl mx-auto shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-center">Live Trend Analysis</CardTitle>
+              <CardDescription className="text-center">
+                Example of the trend data behind today&apos;s idea
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TrendCharts 
+                trendData={{
+                  keywords: ['AI productivity', 'automation', 'no-code'],
+                  category: 'Productivity',
+                  strength: 0.75,
+                  sources: ['Reddit', 'Google Trends', 'GitHub']
+                }}
+              />
             </CardContent>
           </Card>
         </div>

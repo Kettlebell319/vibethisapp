@@ -28,8 +28,12 @@ export class IdeaGenerator {
   private anthropic: Anthropic;
 
   constructor() {
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      throw new Error('ANTHROPIC_API_KEY is not set in environment variables');
+    }
     this.anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY!,
+      apiKey: apiKey,
     });
   }
 
@@ -103,7 +107,8 @@ Generate ONE specific, buildable app idea that:
 • Backed by the trend data provided
 • Written in a fun, smart, punchy voice
 
-Respond in this EXACT JSON format:
+IMPORTANT: Respond with ONLY valid JSON. No additional text, explanations, or formatting. Just the JSON object below:
+
 {
   "title": "Catchy, tweetable title",
   "description": "1-2 sentence description focusing on vibe and value",
@@ -123,13 +128,29 @@ Make it concrete, actionable, and exciting for vibecoders to build TODAY.`;
 
   private parseIdeaResponse(response: string, trend: AggregatedTrend): GeneratedIdea | null {
     try {
-      // Extract JSON from response (in case Claude adds extra text)
-      const jsonMatch = response.match(/\{[\s\S]*\}/);
+      // Clean up the response - remove any HTML, markdown, or extra text
+      let cleanResponse = response;
+      
+      // Remove any HTML tags
+      cleanResponse = cleanResponse.replace(/<[^>]*>/g, '');
+      
+      // Extract JSON from response (more robust regex)
+      const jsonMatch = cleanResponse.match(/\{[\s\S]*?\}(?=\s*$|\s*\n\s*$)/);
       if (!jsonMatch) {
-        throw new Error('No JSON found in response');
+        console.log('Raw response:', response);
+        throw new Error('No valid JSON found in response');
       }
 
-      const parsed = JSON.parse(jsonMatch[0]);
+      let jsonString = jsonMatch[0];
+      
+      // Clean up common JSON issues
+      jsonString = jsonString
+        .replace(/[\u201C\u201D]/g, '"') // Replace smart quotes
+        .replace(/[\u2018\u2019]/g, "'") // Replace smart apostrophes
+        .replace(/\n/g, ' ') // Replace newlines with spaces
+        .trim();
+
+      const parsed = JSON.parse(jsonString);
       
       // Determine revenue potential based on monetization ideas
       const revenueKeywords = ['subscription', 'premium', 'enterprise', 'api', 'marketplace'];
@@ -210,6 +231,11 @@ Make it concrete, actionable, and exciting for vibecoders to build TODAY.`;
   }
 
   private async storeIdea(idea: GeneratedIdea): Promise<void> {
+    if (!supabaseAdmin) {
+      console.log('⚠️ Supabase not configured, skipping idea storage');
+      return;
+    }
+
     try {
       await supabaseAdmin
         .from('ideas')

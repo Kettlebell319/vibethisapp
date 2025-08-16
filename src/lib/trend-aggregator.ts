@@ -73,6 +73,11 @@ export class TrendAggregator {
   }
 
   private async storeRawSignals(redditSignals: any[], googleTrendsSignals: any[]) {
+    if (!supabaseAdmin) {
+      console.log('⚠️ Supabase not configured, skipping signal storage');
+      return;
+    }
+
     console.log('💾 Storing raw signals in database...');
     
     try {

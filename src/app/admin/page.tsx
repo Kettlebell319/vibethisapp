@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { TrendCharts } from '@/components/trend-charts';
 
 export default function AdminPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -178,14 +179,9 @@ export default function AdminPage() {
                     </div>
 
                     {result.idea.trend_signals && (
-                      <div className="pt-4 border-t">
-                        <h4 className="font-semibold text-gray-900 mb-2">📊 Trend Data</h4>
-                        <div className="bg-gray-50 p-3 rounded text-sm">
-                          <p><strong>Keywords:</strong> {result.idea.trend_signals.keywords?.join(', ')}</p>
-                          <p><strong>Category:</strong> {result.idea.trend_signals.category}</p>
-                          <p><strong>Strength:</strong> {result.idea.trend_signals.strength?.toFixed(2)}</p>
-                          <p><strong>Sources:</strong> {result.idea.trend_signals.sources?.join(', ')}</p>
-                        </div>
+                      <div className="pt-6 border-t">
+                        <h4 className="font-semibold text-gray-900 mb-4">📊 Trend Analysis</h4>
+                        <TrendCharts trendData={result.idea.trend_signals} />
                       </div>
                     )}
                   </div>
