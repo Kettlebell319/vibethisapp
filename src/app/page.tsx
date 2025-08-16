@@ -36,8 +36,8 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Get daily, actionable AI app ideas designed for vibecoders. 
-            No fluff, just buildable projects you can ship with tools like Claude, Replit, and Bolt.
+            Get daily, actionable app ideas designed for vibecoders. 
+            No fluff, just buildable projects you can ship with modern tools like Claude, Replit, and Bolt.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="text-lg px-8 py-3">
@@ -66,10 +66,10 @@ export default function Home() {
                 </div>
               </div>
               <CardTitle className="text-2xl mt-4">
-                💡 AI Recipe Optimizer for Dietary Restrictions
+                💡 Recipe Optimizer for Dietary Restrictions
               </CardTitle>
               <CardDescription className="text-lg">
-                Transform any recipe to match specific dietary needs using AI
+                Transform any recipe to match specific dietary needs automatically
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -77,7 +77,7 @@ export default function Home() {
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">🚀 What It Is</h4>
                   <p className="text-gray-600">
-                    Upload a recipe photo or paste ingredients, and AI instantly adapts it for keto, vegan, 
+                    Upload a recipe photo or paste ingredients, and instantly get adaptations for keto, vegan, 
                     gluten-free, or any dietary restriction. Perfect for the 54% of people managing special diets.
                   </p>
                 </div>
@@ -114,7 +114,7 @@ export default function Home() {
             <CardContent>
               <p className="text-gray-600">
                 Every idea comes with exact tools, APIs, and step-by-step guidance. 
-                No vague "use AI to solve X" nonsense.
+                No vague concepts—just concrete, buildable projects.
               </p>
             </CardContent>
           </Card>
